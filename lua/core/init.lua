@@ -21,6 +21,7 @@ Core = {
         { name = 'vsnip' },
       },
     },
+    null_ls = { enable = true },
     autopairs = { enable = true },
 
     -- Terminal
@@ -38,20 +39,7 @@ Core = {
     bufferline = { enable = true },
 
     -- Others
-    null_ls = { enable = true },
     nvim_comment = { enable = true },
-
-    -- Packer-specific needs
-    packer = {
-      enable = true,
-      init = {
-        display = {
-          open_fn = function()
-            return Core.utils.plugins.require('packer.util').float({ border = 'single' })
-          end,
-        },
-      },
-    },
   },
 
   -- Update in core.utils
@@ -59,34 +47,12 @@ Core = {
 
   -- Language Servers
   language_servers = {
-    --cmake = {
-    --  config = function(opts)
-    --    opts = vim.tbl_deep_extend('force', {}, opts)
-    --    return opts
-    --  end
-    --},
-    --pylsp = {},
-    --clangd = {},
-    --ltex = {},
-    sumneko_lua = {
-      config = function(opts)
-        opts = vim.tbl_deep_extend('force', {
-          settings = {
-            Lua = {
-              runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
-              diagnostics = { globals = { 'vim' } },
-              workspace = {
-                library = vim.api.nvim_get_runtime_file('', true),
-                checkThirdParty = false,
-                preloadFileSize = 10000,
-              },
-              telemetry = { enable = false },
-            },
-          },
-        }, opts)
-        return opts
-      end,
-    },
+    clangd = { enable_format = true },
+    cmake = { enable_format = true },
+    ltex = { enable_format = true },
+    pylsp = { enable_format = true },
+    sumneko_lua = { enable_format = false },
+    verible = { enable_format = true },
   },
 
   -- Some Common Settings
@@ -98,6 +64,9 @@ Core = {
 
 -- Utils
 require('core.utils')
+
+-- Speed up
+require('impatient').enable_profile()
 
 -- General
 require('core.options')
