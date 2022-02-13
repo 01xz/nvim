@@ -4,13 +4,27 @@ local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path })
+  PACKER_BOOTSTRAP = fn.system({
+    'git',
+    'clone',
+    '--depth',
+    '1',
+    'https://github.com/wbthomason/packer.nvim',
+    install_path,
+  })
   execute('packadd packer.nvim')
 end
 
 local packer = Core.utils.plugins.require('packer')
 
-packer.init(Core.plugins.packer.init)
+-- Use a popup window
+packer.init({
+  display = {
+    open_fn = function()
+      return require('packer.util').float({ border = 'rounded' })
+    end,
+  },
+})
 
 local function is_enable(plugin)
   return Core.plugins[plugin].enable
@@ -78,6 +92,12 @@ return packer.startup(function(use)
   use({
     'williamboman/nvim-lsp-installer',
     disable = not is_enable('lsp'),
+  })
+  use({
+    'jose-elias-alvarez/null-ls.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+    disable = not is_enable('null_ls'),
+    config = "require('config.null_ls')",
   })
   use({
     'hrsh7th/nvim-cmp',
@@ -156,15 +176,14 @@ return packer.startup(function(use)
   use({ 'catppuccin/nvim', as = 'catppuccin', opt = true })
 
   -- Others
+  use({ 'lewis6991/impatient.nvim' })
   use({
     'terrortylor/nvim-comment',
     disable = not is_enable('nvim_comment'),
     config = "require('config.comment')",
   })
-  use({
-    'jose-elias-alvarez/null-ls.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-    disable = not is_enable('null_ls'),
-    config = "require('config.null_ls')",
-  })
+
+  if PACKER_BOOTSTRAP then
+    require('packer').sync()
+  end
 end)
