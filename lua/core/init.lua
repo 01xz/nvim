@@ -65,13 +65,13 @@ Core = {
 -- Utils
 require('core.utils')
 
--- Speed up
-require('impatient').enable_profile()
-
 -- General
 require('core.options')
 require('core.plugins')
 require('core.keybindings')
+
+-- Speed up
+require('impatient').enable_profile()
 
 -- Colorscheme
 Core.utils.plugins.require('colorscheme.' .. Core.settings.colorscheme)
