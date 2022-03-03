@@ -59,6 +59,9 @@ vim.o.timeoutlen = 300
 vim.o.splitbelow = true
 vim.o.splitright = false
 
+-- Set clipboard
+vim.o.clipboard = vim.o.clipboard .. 'unnamedplus'
+
 -- Disable various builtin plugins in Vim that bog down speed
 vim.g.loaded_matchparen = 1
 vim.g.loaded_matchit = 1
