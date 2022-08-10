@@ -6,7 +6,7 @@ Core.utils.plugins.require('nvim-treesitter.install').compilers = { 'gcc' }
 local treesitter = Core.utils.plugins.require('nvim-treesitter.configs')
 
 treesitter.setup({
-  ensure_installed = 'maintained',
+  ensure_installed = 'all',
   ignore_install = {},
   indent = { enable = true },
   highlight = {
